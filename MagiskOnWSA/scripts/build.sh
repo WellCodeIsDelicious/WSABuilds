@@ -443,7 +443,7 @@ short_artifact_name=WSA_${WSA_VER}_${ARCH}
 if [ ! -d "$OUTPUT_DIR" ]; then
     mkdir -p "$OUTPUT_DIR"
 fi
-OUTPUT_PATH="${OUTPUT_DIR:?}/$artifact_name"
+OUTPUT_PATH="${OUTPUT_DIR:?}/$short_artifact_name"
 mv "$WORK_DIR/wsa/$ARCH" "$OUTPUT_PATH"
 {
   echo "artifact_folder=${short_artifact_name}"  
