@@ -412,13 +412,12 @@ echo "Removing signature and add scripts"
 rm -rf "${WORK_DIR:?}"/wsa/"$ARCH"/\[Content_Types\].xml "$WORK_DIR/wsa/$ARCH/AppxBlockMap.xml" "$WORK_DIR/wsa/$ARCH/AppxSignature.p7x" "$WORK_DIR/wsa/$ARCH/AppxMetadata" || abort
 cp "$vclibs_PATH" "$xaml_PATH" "$WORK_DIR/wsa/$ARCH" || abort
 cp "$UWPVCLibs_PATH" "$xaml_PATH" "$WORK_DIR/wsa/$ARCH" || abort
+cp "../bin/$ARCH/makepri.exe" "$WORK_DIR/wsa/$ARCH" || abort
 cp "../xml/priconfig.xml" "$WORK_DIR/wsa/$ARCH/xml/" || abort
 cp "../installer/$ARCH/MakePri.ps1" "$WORK_DIR/wsa/$ARCH" || abort
 cp "../installer/$ARCH/Install.ps1" "$WORK_DIR/wsa/$ARCH" || abort
 cp "../installer/Run.bat" "$WORK_DIR/wsa/$ARCH" || abort
 find "$WORK_DIR/wsa/$ARCH" -maxdepth 1 -mindepth 1 -printf "%P\n" >"$WORK_DIR/wsa/$ARCH/filelist.txt" || abort
-find "$WORK_DIR/wsa/$ARCH/pri" -printf "%P\n" | sed -e 's/^/pri\\/' -e '/^$/d' > "$WORK_DIR/wsa/$ARCH/filelist-pri.txt" || abort
-find "$WORK_DIR/wsa/$ARCH/xml" -printf "%P\n" | sed -e 's/^/xml\\/' -e '/^$/d' >> "$WORK_DIR/wsa/$ARCH/filelist-pri.txt" || abort
 echo -e "done\n"
 
 if [[ "$ROOT_SOL" = "none" ]]; then
@@ -438,6 +437,7 @@ fi
 #fi
 artifact_name=WSA_${WSA_VER}_${ARCH}_${WSA_REL}${name1}${name2}
 #${name3}
+short_artifact_name=WSA_${WSA_VER}_${ARCH}
 [ "$REMOVE_AMAZON" ] && artifact_name+=-NoAmazon
 
 if [ ! -d "$OUTPUT_DIR" ]; then
@@ -446,6 +446,7 @@ fi
 OUTPUT_PATH="${OUTPUT_DIR:?}/$artifact_name"
 mv "$WORK_DIR/wsa/$ARCH" "$OUTPUT_PATH"
 {
+  echo "artifact_folder=${short_artifact_name}"  
   echo "artifact=${artifact_name}"
   echo "arch=${ARCH}"
   echo "built=$(date -u +%Y%m%d%H%M%S)"
