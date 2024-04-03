@@ -437,6 +437,7 @@ fi
 #fi
 artifact_name=WSA_${WSA_VER}_${ARCH}_${WSA_REL}${name1}${name2}
 #${name3}
+short_artifact_name=WSA_${WSA_VER}_${ARCH}
 [ "$REMOVE_AMAZON" ] && artifact_name+=-NoAmazon
 
 if [ ! -d "$OUTPUT_DIR" ]; then
@@ -445,6 +446,7 @@ fi
 OUTPUT_PATH="${OUTPUT_DIR:?}/$artifact_name"
 mv "$WORK_DIR/wsa/$ARCH" "$OUTPUT_PATH"
 {
+  echo "artifact_folder=${short_artifact_name}"  
   echo "artifact=${artifact_name}"
   echo "arch=${ARCH}"
   echo "built=$(date -u +%Y%m%d%H%M%S)"
